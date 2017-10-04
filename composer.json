@@ -1,0 +1,8 @@
+{
+  "name": "massimo-filippi/mail-module",
+  "description": "ZF3 module for e-mail communication",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {}
+}
