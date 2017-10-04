@@ -2,4 +2,8 @@
 
 namespace MassimoFilippi\MailModule;
 
-return [];
+return [
+    'service_manager' => [
+        'factories' => [],
+    ],
+];
