@@ -1,14 +1,14 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Service;
+namespace MassimoFilippi\MailModule\Provider;
 
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
 
 /**
- * Interface MailServiceInterface
- * @package MassimoFilippi\MailModule\Service
+ * Interface ProviderInterface
+ * @package MassimoFilippi\MailModule\Provider
  */
-interface MailServiceInterface
+interface ProviderInterface
 {
     /**
      * @param MessageInterface $message
