@@ -51,12 +51,24 @@ class MailjetProvider implements ProviderInterface
      */
     public function sendMail(MessageInterface $message)
     {
-        $body = $this->createBody([
-            $this->createMessage($message),
-        ]);
+        $body = [
+            'Messages' => [
+                $this->createMessage($message),
+            ],
+        ];
 
+        if ($this->sandboxMode) {
+            // The Send API v3.1 allows to run the API call in a Sandbox mode where all the validation
+            // of the payload will be done without delivering the message.
+            // https://dev.mailjet.com/guides/#sandbox-mode
+            $body['SandboxMode'] = true;
+        }
+
+//        dd($body);
         try {
             $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
+
+            dd($response);
 
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
@@ -67,18 +79,6 @@ class MailjetProvider implements ProviderInterface
     }
 
     //-------------------------------------------------------------------------
-
-    /**
-     * @param array $messages
-     * @return array
-     */
-    private function createBody(array $messages)
-    {
-        return [
-            'Messages' => $messages,
-            'SandboxMode' => $this->sandboxMode,
-        ];
-    }
 
     /**
      * @param MessageInterface $message
@@ -97,7 +97,7 @@ class MailjetProvider implements ProviderInterface
 
         $m['To'] = [];
         foreach ($message->getRecipients() as $recipient) {
-            $m['To'] = [
+            $m['To'][] = [
                 'Email' => $recipient->getEmail(),
                 'Name' => $recipient->getName(),
             ];
