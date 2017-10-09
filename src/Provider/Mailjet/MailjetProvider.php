@@ -64,11 +64,8 @@ class MailjetProvider implements ProviderInterface
             $body['SandboxMode'] = true;
         }
 
-//        dd($body);
         try {
             $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
-
-            dd($response);
 
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
@@ -121,7 +118,9 @@ class MailjetProvider implements ProviderInterface
 
             $m['TemplateLanguage'] = $message->isTemplateLanguage();
 
-            //$m['Variables'] = $message->getVariablesArray();
+            if ($message->hasVariables()) {
+                $m['Variables'] = $message->getVariables();
+            }
         } else {
             $m['HTMLPart'] = $message->getMessage();
             $m['TextPart'] = strip_tags($message->getMessage());

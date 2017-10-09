@@ -42,9 +42,17 @@ class MailjetProviderMessage extends Message implements MessageInterface
     protected $templateErrorReporting = [];
 
     /**
+     * @return bool
+     */
+    public function hasVariables()
+    {
+        return false === empty($this->variables);
+    }
+
+    /**
      * @return array
      */
-    public function getVariablesArray()
+    public function getVariables()
     {
         return $this->variables;
     }
