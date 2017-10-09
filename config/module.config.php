@@ -9,7 +9,7 @@ return [
             Service\MailService::class => Service\Factory\MailServiceFactory::class,
 
             // providers
-            Provider\MailjetProvider::class => Provider\Factory\MailjetProviderFactory::class,
+            Provider\Mailjet\MailjetProvider::class => Provider\Mailjet\Factory\MailjetProviderFactory::class,
         ],
     ],
 ];
