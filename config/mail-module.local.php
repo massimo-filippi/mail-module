@@ -7,6 +7,7 @@ return [
             'provider_params' => [
                 'api_key' => '---API-KEY---',
                 'api_secret' => '---API-SECRET---',
+                'sandbox_mode' => false, // will not send email if true, but API will response
             ],
         ],
     ],
