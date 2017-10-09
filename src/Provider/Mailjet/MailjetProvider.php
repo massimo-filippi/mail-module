@@ -29,6 +29,8 @@ class MailjetProvider implements ProviderInterface
      */
     private $sandboxMode = false;
 
+    //-------------------------------------------------------------------------
+
     /**
      * MailjetProvider constructor.
      * @param string $apiKey
@@ -42,19 +44,35 @@ class MailjetProvider implements ProviderInterface
         $this->sandboxMode = (bool)$sandboxMode;
     }
 
+    //-------------------------------------------------------------------------
+
     /**
      * @param MessageInterface $message
      */
     public function sendMail(MessageInterface $message)
     {
-        // TODO: Implement sendMail() method.
+        $body = $this->createBody([
+            $this->createMessage($message),
+        ]);
+
+        try {
+            $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
+
+            if (false === $response->success()) {
+                throw new RuntimeException($response->getReasonPhrase());
+            }
+        } catch (\Exception $exception) {
+            throw new RuntimeException('Exception raised during sending mail.', $exception->getCode(), $exception);
+        }
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * @param array $messages
      * @return array
      */
-    public function createBody(array $messages)
+    private function createBody(array $messages)
     {
         return [
             'Messages' => $messages,
@@ -66,7 +84,7 @@ class MailjetProvider implements ProviderInterface
      * @param MessageInterface $message
      * @return array
      */
-    public function createMessage(MessageInterface $message)
+    private function createMessage(MessageInterface $message)
     {
         $m = [];
 
@@ -95,7 +113,7 @@ class MailjetProvider implements ProviderInterface
 
             // todo: https://dev.mailjet.com/template-language/sendapi/#templates-error-management
             if ($message->isTemplateErrorDeliver()) {
-                $m['TemplateID'] = $message->isTemplateErrorDeliver(),
+                $m['TemplateID'] = $message->isTemplateErrorDeliver();
                 $m['TemplateErrorReporting'] = $message->getTemplateErrorReportingArray();
             }
 
@@ -115,17 +133,5 @@ class MailjetProvider implements ProviderInterface
     private function createMailjetClient()
     {
         return new Mailjet\Client($this->apiKey, $this->apiSecret, true, ['version' => 'v3.1']);
-    }
-
-    /**
-     * @param array $body
-     * @return Mailjet\Response
-     */
-    private function sendTransactional(array $body){
-        try {
-            return $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
-        } catch (\Exception $exception) {
-            throw new RuntimeException('Exception raised during sending mail.', $exception->getCode(), $exception);
-        }
     }
 }
