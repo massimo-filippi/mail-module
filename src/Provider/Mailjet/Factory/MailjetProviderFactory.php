@@ -1,6 +1,6 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Provider\Factory;
+namespace MassimoFilippi\MailModule\Provider\Mailjet\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
@@ -10,7 +10,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Class MailjetProviderFactory
- * @package MassimoFilippi\MailModule\Provider\Factory
+ * @package MassimoFilippi\MailModule\Provider\Mailjet\Factory
  */
 class MailjetProviderFactory implements FactoryInterface
 {
