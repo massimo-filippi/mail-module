@@ -22,9 +22,9 @@ class MailjetProviderMessage extends Message implements MessageInterface
     protected $template = false;
 
     /**
-     * @var string
+     * @var int
      */
-    protected $templateId = '';
+    protected $templateId = 0;
 
     /**
      * @var bool
@@ -83,7 +83,7 @@ class MailjetProviderMessage extends Message implements MessageInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getTemplateId()
     {
@@ -91,12 +91,11 @@ class MailjetProviderMessage extends Message implements MessageInterface
     }
 
     /**
-     * @param string $templateId
+     * @param int $templateId
      */
     public function setTemplateId($templateId)
     {
-        // must be a string
-        $this->templateId = (string)$templateId;
+        $this->templateId = (int)$templateId;
     }
 
     /**

@@ -67,6 +67,8 @@ class MailjetProvider implements ProviderInterface
         try {
             $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
 
+
+            dd($response);
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
             }
