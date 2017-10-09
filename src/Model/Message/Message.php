@@ -25,7 +25,7 @@ class Message implements MessageInterface
     /**
      * @var string
      */
-    protected $subject = 'Without subject';
+    protected $subject = 'No subject';
 
     /**
      * @var string
@@ -33,11 +33,14 @@ class Message implements MessageInterface
     protected $message = '';
 
     /**
+     * MessageInterface constructor.
      * @param SenderInterface $sender
+     * @param RecipientInterface $recipient
      */
-    public function setSender(SenderInterface $sender)
+    public function __construct(SenderInterface $sender, RecipientInterface $recipient)
     {
-        $this->sender = $sender;
+        $this->setSender($sender);
+        $this->addRecipient($recipient);
     }
 
     /**
@@ -49,11 +52,11 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param RecipientInterface $recipient
+     * @param SenderInterface $sender
      */
-    public function addRecipient(RecipientInterface $recipient)
+    public function setSender(SenderInterface $sender)
     {
-        $this->recipients[] = $recipient;
+        $this->sender = $sender;
     }
 
     /**
@@ -62,6 +65,14 @@ class Message implements MessageInterface
     public function getRecipients()
     {
         return $this->recipients;
+    }
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipient(RecipientInterface $recipient)
+    {
+        $this->recipients[] = $recipient;
     }
 
     /**
