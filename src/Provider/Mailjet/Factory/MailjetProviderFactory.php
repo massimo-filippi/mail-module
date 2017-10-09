@@ -3,9 +3,8 @@
 namespace MassimoFilippi\MailModule\Provider\Mailjet\Factory;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
+use MassimoFilippi\MailModule\Provider\Mailjet\MailjetProvider;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -16,19 +15,34 @@ class MailjetProviderFactory implements FactoryInterface
 {
 
     /**
-     * Create an object
-     *
-     * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @param  null|array $options
-     * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return MailjetProvider
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        // TODO: Implement __invoke() method.
+        /** @var array $config */
+        $config = $container->get('Config');
+
+        if (false === isset($config['massimo_filippi']['mail_module']['provider_params']['api_key'])) {
+            throw new ServiceNotCreatedException('Missing provider parameter: "api_key".');
+        }
+
+        $apiKey = $config['massimo_filippi']['mail_module']['provider_params']['api_key'];
+
+        if (false === isset($config['massimo_filippi']['mail_module']['provider_params']['api_secret'])) {
+            throw new ServiceNotCreatedException('Missing provider parameter: "api_secret".');
+        }
+
+        $apiSecret = $config['massimo_filippi']['mail_module']['provider_params']['api_secret'];
+
+        $sandboxMode = false;
+
+        if (true === isset($config['massimo_filippi']['mail_module']['provider_params']['sandbox_mode'])) {
+            $sandboxMode = $config['massimo_filippi']['mail_module']['provider_params']['sandbox_mode'];
+        }
+
+        return new MailjetProvider($apiKey, $apiSecret, $sandboxMode);
     }
 }

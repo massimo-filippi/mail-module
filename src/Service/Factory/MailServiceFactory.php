@@ -3,9 +3,9 @@
 namespace MassimoFilippi\MailModule\Service\Factory;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
+use MassimoFilippi\MailModule\Provider\Mailjet\MailjetProvider;
+use MassimoFilippi\MailModule\Service\MailService;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -16,19 +16,35 @@ class MailServiceFactory implements FactoryInterface
 {
 
     /**
-     * Create an object
-     *
-     * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @param  null|array $options
-     * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return MailService
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        // TODO: Implement __invoke() method.
+
+        /** @var array $config */
+        $config = $container->get('Config');
+
+        if (false === isset($config['massimo_filippi']['mail_module'])) {
+            throw new ServiceNotCreatedException('Missing configuration for mail module.');
+        }
+
+        if (false === isset($config['massimo_filippi']['mail_module']['provider'])) {
+            throw new ServiceNotCreatedException('Missing provider name.');
+        }
+
+        $providerName = $config['massimo_filippi']['mail_module']['provider'];
+
+        switch ($providerName) {
+            case MailjetProvider::class:
+                $provider = $container->get(MailjetProvider::class);
+                break;
+            default:
+                throw new ServiceNotCreatedException(sprintf('Provider "%s" could not be found.', $providerName));
+        }
+
+        return new MailService($provider);
     }
 }
