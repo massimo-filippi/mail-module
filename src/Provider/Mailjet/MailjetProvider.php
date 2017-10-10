@@ -64,11 +64,8 @@ class MailjetProvider implements ProviderInterface
             $body['SandboxMode'] = true;
         }
 
-//        dd($body);
         try {
             $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
-
-            dd($response);
 
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
@@ -108,18 +105,23 @@ class MailjetProvider implements ProviderInterface
 
             if ($message->isTemplate()) {
                 $m['TemplateID'] = $message->getTemplateId();
-                $m['TemplateLanguage'] = $message->isTemplateLanguage();
+            } else {
+                $m['HTMLPart'] = $message->getMessage();
+                $m['TextPart'] = strip_tags($message->getMessage());
             }
 
             // todo: https://dev.mailjet.com/template-language/sendapi/#templates-error-management
             if ($message->isTemplateErrorDeliver()) {
-                $m['TemplateID'] = $message->isTemplateErrorDeliver();
+                $m['TemplateErrorDeliver'] = $message->isTemplateErrorDeliver();
                 $m['TemplateErrorReporting'] = $message->getTemplateErrorReportingArray();
             }
 
-            $m['Variables'] = $message->getVariablesArray();
-        } else {
+            $m['TemplateLanguage'] = $message->isTemplateLanguage();
 
+            if ($message->hasVariables()) {
+                $m['Variables'] = $message->getVariables();
+            }
+        } else {
             $m['HTMLPart'] = $message->getMessage();
             $m['TextPart'] = strip_tags($message->getMessage());
         }

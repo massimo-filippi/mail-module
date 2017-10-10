@@ -11,11 +11,12 @@ use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
  */
 interface MessageInterface
 {
-
     /**
+     * MessageInterface constructor.
      * @param SenderInterface $sender
+     * @param RecipientInterface $recipient
      */
-    public function setSender(SenderInterface $sender);
+    public function __construct(SenderInterface $sender, RecipientInterface $recipient);
 
     /**
      * @return SenderInterface
@@ -23,14 +24,19 @@ interface MessageInterface
     public function getSender();
 
     /**
-     * @param RecipientInterface $recipient
+     * @param SenderInterface $sender
      */
-    public function addRecipient(RecipientInterface $recipient);
+    public function setSender(SenderInterface $sender);
 
     /**
      * @return RecipientInterface[]
      */
     public function getRecipients();
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipient(RecipientInterface $recipient);
 
     /**
      * @return string

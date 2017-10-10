@@ -19,6 +19,20 @@ class Sender implements SenderInterface
     protected $name;
 
     /**
+     * Sender constructor.
+     * @param string $email
+     * @param null $name
+     */
+    public function __construct($email, $name = null)
+    {
+        $this->setEmail($email);
+
+        if ($name) {
+            $this->setName($this->name);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getEmail()

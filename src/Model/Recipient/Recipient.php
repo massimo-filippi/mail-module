@@ -19,6 +19,20 @@ class Recipient implements RecipientInterface
     protected $name;
 
     /**
+     * Recipient constructor.
+     * @param string $email
+     * @param null $name
+     */
+    public function __construct($email, $name = null)
+    {
+        $this->setEmail($email);
+
+        if ($name) {
+            $this->setName($this->name);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getEmail()
