@@ -52,8 +52,6 @@ return [
 
 ### 3. Set up your configuration
 
-You have to set settings for MailService, otherwise you will not be able to use it. 
-
 At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) (via SMTP for now) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
 
 **Using MailjetAdapter:**
@@ -69,10 +67,10 @@ return [
         'mail_module' => [
             
             // Adapter you want to use.
-            'provider' => \MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter::class,
+            'adapter' => \MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter::class,
             
             // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
-            'provider_params' => [
+            'adapter_params' => [
                 'api_key' => '---API-KEY---',
                 'api_secret' => '---API-SECRET---',
                 'sandbox_mode' => false, // will not send email if true, but API will response
