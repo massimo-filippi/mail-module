@@ -3,7 +3,7 @@
 namespace MassimoFilippi\MailModule\Service\Factory;
 
 use Interop\Container\ContainerInterface;
-use MassimoFilippi\MailModule\Provider\Mailjet\MailjetProvider;
+use MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter;
 use MassimoFilippi\MailModule\Service\MailService;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -31,20 +31,20 @@ class MailServiceFactory implements FactoryInterface
             throw new ServiceNotCreatedException('Missing configuration for mail module.');
         }
 
-        if (false === isset($config['massimo_filippi']['mail_module']['provider'])) {
-            throw new ServiceNotCreatedException('Missing provider name.');
+        if (false === isset($config['massimo_filippi']['mail_module']['adapter'])) {
+            throw new ServiceNotCreatedException('Missing adapter name.');
         }
 
-        $providerName = $config['massimo_filippi']['mail_module']['provider'];
+        $adapterName = $config['massimo_filippi']['mail_module']['adapter'];
 
-        switch ($providerName) {
-            case MailjetProvider::class:
-                $provider = $container->get(MailjetProvider::class);
+        switch ($adapterName) {
+            case MailjetAdapter::class:
+                $adapter = $container->get(MailjetAdapter::class);
                 break;
             default:
-                throw new ServiceNotCreatedException(sprintf('Provider "%s" could not be found.', $providerName));
+                throw new ServiceNotCreatedException(sprintf('Adapter "%s" could not be found.', $adapterName));
         }
 
-        return new MailService($provider);
+        return new MailService($adapter);
     }
 }
