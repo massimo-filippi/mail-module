@@ -1,6 +1,6 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Adapter\SparkPostSmtp;
+namespace MassimoFilippi\MailModule\Adapter\SparkPost;
 
 use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
@@ -11,7 +11,7 @@ use Zend\Mail\Transport\SmtpOptions as ZendTransportOptions;
 
 /**
  * Class SparkPostSmtpAdapter
- * @package Adapter\SparkPostSmtp
+ * @package MassimoFilippi\MailModule\Adapter\SparkPost
  */
 class SparkPostSmtpAdapter implements AdapterInterface
 {

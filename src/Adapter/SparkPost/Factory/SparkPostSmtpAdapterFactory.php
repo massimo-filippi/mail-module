@@ -1,15 +1,15 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Adapter\SparkPostSmtp\Factory;
+namespace MassimoFilippi\MailModule\Adapter\SparkPost\Factory;
 
 use Interop\Container\ContainerInterface;
-use MassimoFilippi\MailModule\Adapter\SparkPostSmtp\SparkPostSmtpAdapter;
+use MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostSmtpAdapter;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Class SparkPostSmtpAdapterFactory
- * @package MassimoFilippi\MailModule\Adapter\SparkPostSmtp\Factory
+ * @package MassimoFilippi\MailModule\Adapter\SparkPost\Factory
  */
 class SparkPostSmtpAdapterFactory implements FactoryInterface
 {

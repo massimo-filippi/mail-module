@@ -2,11 +2,6 @@
 
 namespace MassimoFilippi\MailModule;
 
-use MassimoFilippi\MailModule\Adapter\Mailjet\Factory\MailjetAdapterFactory;
-use MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter;
-use MassimoFilippi\MailModule\Adapter\SparkPostSmtp\Factory\SparkPostSmtpAdapterFactory;
-use MassimoFilippi\MailModule\Adapter\SparkPostSmtp\SparkPostSmtpAdapter;
-
 return [
     'service_manager' => [
         'factories' => [
@@ -14,8 +9,8 @@ return [
             Service\MailService::class => Service\Factory\MailServiceFactory::class,
 
             // adapters
-            MailjetAdapter::class => MailjetAdapterFactory::class,
-            SparkPostSmtpAdapter::class => SparkPostSmtpAdapterFactory::class,
+            Adapter\Mailjet\MailjetAdapter::class => Adapter\Mailjet\Factory\MailjetAdapterFactory::class,
+            Adapter\SparkPost\SparkPostSmtpAdapter::class => Adapter\SparkPost\Factory\SparkPostSmtpAdapterFactory::class,
         ],
     ],
 ];
