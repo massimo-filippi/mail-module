@@ -26,17 +26,17 @@ class SparkPostSmtpAdapterFactory implements FactoryInterface
         /** @var array $config */
         $config = $container->get('Config');
 
-        if (false === isset($config['massimo_filippi']['mail_module']['adapter_params']['name'])) {
-            throw new ServiceNotCreatedException('Missing adapter parameter: "name".');
+        if (false === isset($config['massimo_filippi']['mail_module']['adapter_params']['sending_domain'])) {
+            throw new ServiceNotCreatedException('Missing adapter parameter: "sending_domain".');
         }
 
-        if (false === isset($config['massimo_filippi']['mail_module']['adapter_params']['password'])) {
-            throw new ServiceNotCreatedException('Missing adapter parameter: "password".');
+        if (false === isset($config['massimo_filippi']['mail_module']['adapter_params']['api_key'])) {
+            throw new ServiceNotCreatedException('Missing adapter parameter: "api_key".');
         }
 
-        $name = $config['massimo_filippi']['mail_module']['adapter_params']['name'];
-        $password = $config['massimo_filippi']['mail_module']['adapter_params']['password'];
+        $sendingDomain = $config['massimo_filippi']['mail_module']['adapter_params']['sending_domain'];
+        $apiKey = $config['massimo_filippi']['mail_module']['adapter_params']['api_key'];
 
-        return new SparkPostSmtpAdapter($name, $password);
+        return new SparkPostSmtpAdapter($sendingDomain, $apiKey);
     }
 }

@@ -42,6 +42,7 @@ You don't have to use this package as Zend Framework module if you don't want to
  * This should be an array of module namespaces used in the application.
  */
 return [
+    'Zend\Mail',
     'Zend\Router',
     'Zend\Validator',
     'MassimoFilippi\MailModule', // Add this line, ideally before Application module.
@@ -53,32 +54,24 @@ return [
 
 You have to set settings for MailService, otherwise you will not be able to use it. 
 
-Here is what I have in my `config/autoload/local.php` file.
+At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) (via SMTP for now) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
 
-*Warning:* DO NOT set passwords in files that are versioned!
+**Using MailjetAdapter:**
 
 ```php
 <?php
-/**
- * Local Configuration Override
- *
- * This configuration override file is for overriding environment-specific and
- * security-sensitive configuration information. Copy this file without the
- * .dist extension at the end and populate values as needed.
- *
- * @NOTE: This file is ignored from Git by default with the .gitignore included
- * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
- * credentials from accidentally being committed into version control.
- */
 
 return [
     // Config array for modules in MassimoFilippi namespace (our modules).
     'massimo_filippi' => [
+        
         // Config array for MailModule.
         'mail_module' => [
-            // Provider you want to use.
-            'provider' => \MassimoFilippi\MailModule\Provider\Mailjet\MailjetProvider::class,
-            // Provider's parameters needed to create provider's instance (e.g., api key or password).
+            
+            // Adapter you want to use.
+            'provider' => \MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter::class,
+            
+            // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
             'provider_params' => [
                 'api_key' => '---API-KEY---',
                 'api_secret' => '---API-SECRET---',
@@ -89,18 +82,44 @@ return [
 ];
 ```
 
+**Using SparkPostSmtpAdapter:**
+
+```php
+<?php
+
+return [
+    // Config array for modules in MassimoFilippi namespace (our modules).
+    'massimo_filippi' => [
+        
+        // Config array for MailModule.
+        'mail_module' => [
+            
+            // Adapter you want to use.
+            'adapter' => \MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostSmtpAdapter::class,
+            
+            // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
+            'adapter_params' => [
+                'sending_domain' => '---SENDING-DOMAIN---',
+                'api_key' => '---SMTP-API-KEY---',
+            ],
+        ],
+    ],
+];
+```
+
 ## Usage
 
-Somewhere in business logic classes.
+Somewhere in business logic classes. Usage should be always the same.
 
 ```php
 <?php 
 
-use MassimoFilippi\MailModule\Provider\Mailjet\MailjetProviderMessage as Message;
+use MassimoFilippi\MailModule\Model\Message\Message;
 use MassimoFilippi\MailModule\Model\Recipient\Recipient;
 use MassimoFilippi\MailModule\Model\Sender\Sender;
 
 try {   
+    // Remember that some services need sender's email address enabled first!
     $sender = new Sender('no-reply@example.com', 'Example.com');
      
     $recipient = new Recipient('john.doe@gmail.com');

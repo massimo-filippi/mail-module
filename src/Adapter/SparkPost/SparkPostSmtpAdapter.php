@@ -21,22 +21,22 @@ class SparkPostSmtpAdapter implements AdapterInterface
     /**
      * @var string
      */
-    private $name = '';
+    private $sendingDomain = '';
 
     /**
      * @var string
      */
-    private $password = '';
+    private $apiKey = '';
 
     /**
      * SparkPostSmtpAdapter constructor.
-     * @param string $name
-     * @param string $password
+     * @param string $sendingDomain
+     * @param string $apiKey
      */
-    public function __construct($name, $password)
+    public function __construct($sendingDomain, $apiKey)
     {
-        $this->name = (string)$name;
-        $this->password = (string)$password;
+        $this->sendingDomain = (string)$sendingDomain;
+        $this->apiKey = (string)$apiKey;
     }
 
     /**
@@ -58,13 +58,13 @@ class SparkPostSmtpAdapter implements AdapterInterface
         $zendMessage->setBody($message->getMessage());
 
         $options = new ZendTransportOptions([
-            'name' => $this->name,
+            'name' => $this->sendingDomain,
             'host' => self::HOST,
             'port' => self::PORT,
             'connection_class' => ZendProtocolAuthLogin::class,
             'connection_config' => [
                 'username' => 'SMTP_Injection',
-                'password' => $this->password,
+                'password' => $this->apiKey,
                 'ssl' => 'tls',
             ],
         ]);
