@@ -8,8 +8,9 @@ return [
             // services
             Service\MailService::class => Service\Factory\MailServiceFactory::class,
 
-            // providers
-            Provider\Mailjet\MailjetProvider::class => Provider\Mailjet\Factory\MailjetProviderFactory::class,
+            // adapters
+            Adapter\Mailjet\MailjetAdapter::class => Adapter\Mailjet\Factory\MailjetAdapterFactory::class,
+            Adapter\SparkPost\SparkPostSmtpAdapter::class => Adapter\SparkPost\Factory\SparkPostSmtpAdapterFactory::class,
         ],
     ],
 ];

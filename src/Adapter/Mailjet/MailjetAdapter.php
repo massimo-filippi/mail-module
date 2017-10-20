@@ -1,17 +1,18 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Provider\Mailjet;
+namespace MassimoFilippi\MailModule\Adapter\Mailjet;
 
+use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Exception\RuntimeException;
+use MassimoFilippi\MailModule\Model\Message\MailjetMessage;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
-use MassimoFilippi\MailModule\Provider\ProviderInterface;
 use Mailjet;
 
 /**
- * Class MailjetProvider
- * @package MassimoFilippi\MailModule\Provider\Mailjet
+ * Class MailjetAdapter
+ * @package MassimoFilippi\MailModule\Adapter\Mailjet
  */
-class MailjetProvider implements ProviderInterface
+class MailjetAdapter implements AdapterInterface
 {
 
     /**
@@ -32,9 +33,9 @@ class MailjetProvider implements ProviderInterface
     //-------------------------------------------------------------------------
 
     /**
-     * MailjetProvider constructor.
-     * @param string $apiKey
-     * @param string $apiSecret
+     * MailjetAdapter constructor.
+     * @param $apiKey
+     * @param $apiSecret
      * @param bool $sandboxMode
      */
     public function __construct($apiKey, $apiSecret, $sandboxMode = false)
@@ -101,7 +102,7 @@ class MailjetProvider implements ProviderInterface
         }
         unset($recipient);
 
-        if ($message instanceof MailjetProviderMessage) {
+        if ($message instanceof MailjetMessage) {
 
             if ($message->isTemplate()) {
                 $m['TemplateID'] = $message->getTemplateId();

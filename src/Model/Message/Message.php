@@ -11,7 +11,6 @@ use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
  */
 class Message implements MessageInterface
 {
-
     /**
      * @var SenderInterface
      */

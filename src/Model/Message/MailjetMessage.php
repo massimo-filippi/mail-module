@@ -1,15 +1,12 @@
 <?php
 
-namespace MassimoFilippi\MailModule\Provider\Mailjet;
-
-use MassimoFilippi\MailModule\Model\Message\Message;
-use MassimoFilippi\MailModule\Model\Message\MessageInterface;
+namespace MassimoFilippi\MailModule\Model\Message;
 
 /**
- * Class MailjetProviderMessage
- * @package MassimoFilippi\MailModule\Provider\Mailjet
+ * Class MailjetMessage
+ * @package MassimoFilippi\MailModule\Model\Message
  */
-class MailjetProviderMessage extends Message implements MessageInterface
+class MailjetMessage extends Message implements MessageInterface
 {
     /**
      * @var array

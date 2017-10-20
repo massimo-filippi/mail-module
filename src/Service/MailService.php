@@ -2,8 +2,8 @@
 
 namespace MassimoFilippi\MailModule\Service;
 
+use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
-use MassimoFilippi\MailModule\Provider\ProviderInterface;
 
 /**
  * Class MailService
@@ -12,17 +12,17 @@ use MassimoFilippi\MailModule\Provider\ProviderInterface;
 class MailService implements MailServiceInterface
 {
     /**
-     * @var ProviderInterface
+     * @var AdapterInterface
      */
-    private $provider;
+    private $adapter;
 
     /**
      * MailService constructor.
-     * @param ProviderInterface $provider
+     * @param AdapterInterface $adapter
      */
-    public function __construct(ProviderInterface $provider)
+    public function __construct(AdapterInterface $adapter)
     {
-        $this->provider = $provider;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -30,6 +30,6 @@ class MailService implements MailServiceInterface
      */
     public function sendMail(MessageInterface $message)
     {
-        $this->provider->sendMail($message);
+        $this->adapter->sendMail($message);
     }
 }
