@@ -39,6 +39,26 @@ interface MessageInterface
     public function addRecipient(RecipientInterface $recipient);
 
     /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsCC();
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientCC(RecipientInterface $recipient);
+
+    /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsBCC();
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientBCC(RecipientInterface $recipient);
+
+    /**
      * @return string
      */
     public function getSubject();

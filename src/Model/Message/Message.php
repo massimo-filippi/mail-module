@@ -22,6 +22,16 @@ class Message implements MessageInterface
     protected $recipients = [];
 
     /**
+     * @var RecipientInterface[]
+     */
+    protected $recipientsCC = [];
+
+    /**
+     * @var RecipientInterface[]
+     */
+    protected $recipientsBCC = [];
+
+    /**
      * @var string
      */
     protected $subject = 'No subject';
@@ -72,6 +82,38 @@ class Message implements MessageInterface
     public function addRecipient(RecipientInterface $recipient)
     {
         $this->recipients[] = $recipient;
+    }
+
+    /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsCC()
+    {
+        return $this->recipientsCC;
+    }
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientCC(RecipientInterface $recipient)
+    {
+        $this->recipientsCC[] = $recipient;
+    }
+
+    /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsBCC()
+    {
+        return $this->recipientsBCC;
+    }
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientBCC(RecipientInterface $recipient)
+    {
+        $this->recipientsBCC[] = $recipient;
     }
 
     /**
