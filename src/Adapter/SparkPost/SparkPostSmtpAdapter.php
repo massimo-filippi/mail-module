@@ -56,15 +56,19 @@ class SparkPostSmtpAdapter implements AdapterInterface
         }
         unset($recipient);
 
-        foreach ($message->getRecipientsCc() as $recipient) {
-            $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+        if ($message->hasRecipientsCc()) {
+            foreach ($message->getRecipientsCc() as $recipient) {
+                $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
-        foreach ($message->getRecipientsBcc() as $recipient) {
-            $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+        if ($message->hasRecipientsBcc()) {
+            foreach ($message->getRecipientsBcc() as $recipient) {
+                $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
         $zendMessage->setSubject($message->getSubject());
         $zendMessage->setBody($message->getMessage());
@@ -75,7 +79,7 @@ class SparkPostSmtpAdapter implements AdapterInterface
             'connection_class' => ZendProtocolAuthLogin::class,
             'connection_config' => [
                 'username' => 'SMTP_Injection',
-                'password' => $this->apiKey,
+                'password' => $this->getApiKey(),
                 'ssl' => 'tls',
             ],
         ]);

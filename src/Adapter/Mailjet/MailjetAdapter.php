@@ -66,7 +66,9 @@ class MailjetAdapter implements AdapterInterface
         }
 
         try {
-            $response = $this->createMailjetClient()->post(Mailjet\Resources::$Email, ['body' => $body]);
+            $mailjetClient = $this->createMailjetClient();
+
+            $response = $mailjetClient->post(Mailjet\Resources::$Email, ['body' => $body]);
 
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
@@ -152,23 +154,27 @@ class MailjetAdapter implements AdapterInterface
         }
         unset($recipient);
 
-        $m['Cc'] = [];
-        foreach ($message->getRecipientsCc() as $recipient) {
-            $m['Cc'][] = [
-                'Email' => $recipient->getEmail(),
-                'Name' => $recipient->getName(),
-            ];
+        if ($message->hasRecipientsCc()) {
+            $m['Cc'] = [];
+            foreach ($message->getRecipientsCc() as $recipient) {
+                $m['Cc'][] = [
+                    'Email' => $recipient->getEmail(),
+                    'Name' => $recipient->getName(),
+                ];
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
-        $m['Bcc'] = [];
-        foreach ($message->getRecipientsBcc() as $recipient) {
-            $m['Bcc'][] = [
-                'Email' => $recipient->getEmail(),
-                'Name' => $recipient->getName(),
-            ];
+        if ($message->hasRecipientsBcc()) {
+            $m['Bcc'] = [];
+            foreach ($message->getRecipientsBcc() as $recipient) {
+                $m['Bcc'][] = [
+                    'Email' => $recipient->getEmail(),
+                    'Name' => $recipient->getName(),
+                ];
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
         if ($message instanceof MailjetMessage) {
 

@@ -29,6 +29,11 @@ interface MessageInterface
     public function setSender(SenderInterface $sender);
 
     /**
+     * @return bool
+     */
+    public function hasRecipients();
+
+    /**
      * @return RecipientInterface[]
      */
     public function getRecipients();
@@ -39,6 +44,11 @@ interface MessageInterface
     public function addRecipient(RecipientInterface $recipient);
 
     /**
+     * @return bool
+     */
+    public function hasRecipientsCc();
+
+    /**
      * @return RecipientInterface[]
      */
     public function getRecipientsCc();
@@ -47,6 +57,11 @@ interface MessageInterface
      * @param RecipientInterface $recipient
      */
     public function addRecipientCc(RecipientInterface $recipient);
+
+    /**
+     * @return bool
+     */
+    public function hasRecipientsBcc();
 
     /**
      * @return RecipientInterface[]
