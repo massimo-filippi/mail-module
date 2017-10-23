@@ -28,6 +28,8 @@ class SparkPostSmtpAdapter implements AdapterInterface
      */
     private $apiKey = '';
 
+    //-------------------------------------------------------------------------
+
     /**
      * SparkPostSmtpAdapter constructor.
      * @param string $sendingDomain
@@ -35,9 +37,11 @@ class SparkPostSmtpAdapter implements AdapterInterface
      */
     public function __construct($sendingDomain, $apiKey)
     {
-        $this->sendingDomain = (string)$sendingDomain;
-        $this->apiKey = (string)$apiKey;
+        $this->setSendingDomain($sendingDomain);
+        $this->setApiKey($apiKey);
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * @param MessageInterface $message
@@ -55,6 +59,17 @@ class SparkPostSmtpAdapter implements AdapterInterface
         foreach ($message->getRecipients() as $recipient) {
             $zendMessage->addTo($recipient->getEmail(), $recipient->getName());
         }
+        unset($recipient);
+
+        foreach ($message->getRecipientsCc() as $recipient) {
+            $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+        }
+        unset($recipient);
+
+        foreach ($message->getRecipientsBcc() as $recipient) {
+            $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+        }
+        unset($recipient);
 
         $zendMessage->setSubject($message->getSubject());
         $zendMessage->setBody($message->getMessage());
@@ -73,5 +88,39 @@ class SparkPostSmtpAdapter implements AdapterInterface
 
         $transport = new ZendTransport($options);
         $transport->send($zendMessage);
+    }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * @return string
+     */
+    public function getSendingDomain()
+    {
+        return $this->sendingDomain;
+    }
+
+    /**
+     * @param string $sendingDomain
+     */
+    public function setSendingDomain($sendingDomain)
+    {
+        $this->sendingDomain = (string)$sendingDomain;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = (string)$apiKey;
     }
 }

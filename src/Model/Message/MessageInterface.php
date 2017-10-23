@@ -41,22 +41,22 @@ interface MessageInterface
     /**
      * @return RecipientInterface[]
      */
-    public function getRecipientsCC();
+    public function getRecipientsCc();
 
     /**
      * @param RecipientInterface $recipient
      */
-    public function addRecipientCC(RecipientInterface $recipient);
+    public function addRecipientCc(RecipientInterface $recipient);
 
     /**
      * @return RecipientInterface[]
      */
-    public function getRecipientsBCC();
+    public function getRecipientsBcc();
 
     /**
      * @param RecipientInterface $recipient
      */
-    public function addRecipientBCC(RecipientInterface $recipient);
+    public function addRecipientBcc(RecipientInterface $recipient);
 
     /**
      * @return string

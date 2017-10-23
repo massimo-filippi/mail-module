@@ -24,12 +24,12 @@ class Message implements MessageInterface
     /**
      * @var RecipientInterface[]
      */
-    protected $recipientsCC = [];
+    protected $recipientsCc = [];
 
     /**
      * @var RecipientInterface[]
      */
-    protected $recipientsBCC = [];
+    protected $recipientsBcc = [];
 
     /**
      * @var string
@@ -87,33 +87,33 @@ class Message implements MessageInterface
     /**
      * @return RecipientInterface[]
      */
-    public function getRecipientsCC()
+    public function getRecipientsCc()
     {
-        return $this->recipientsCC;
+        return $this->recipientsCc;
     }
 
     /**
      * @param RecipientInterface $recipient
      */
-    public function addRecipientCC(RecipientInterface $recipient)
+    public function addRecipientCc(RecipientInterface $recipient)
     {
-        $this->recipientsCC[] = $recipient;
+        $this->recipientsCc[] = $recipient;
     }
 
     /**
      * @return RecipientInterface[]
      */
-    public function getRecipientsBCC()
+    public function getRecipientsBcc()
     {
-        return $this->recipientsBCC;
+        return $this->recipientsBcc;
     }
 
     /**
      * @param RecipientInterface $recipient
      */
-    public function addRecipientBCC(RecipientInterface $recipient)
+    public function addRecipientBcc(RecipientInterface $recipient)
     {
-        $this->recipientsBCC[] = $recipient;
+        $this->recipientsBcc[] = $recipient;
     }
 
     /**

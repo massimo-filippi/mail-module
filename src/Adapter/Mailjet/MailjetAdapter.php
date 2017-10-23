@@ -40,9 +40,9 @@ class MailjetAdapter implements AdapterInterface
      */
     public function __construct($apiKey, $apiSecret, $sandboxMode = false)
     {
-        $this->apiKey = (string)$apiKey;
-        $this->apiSecret = (string)$apiSecret;
-        $this->sandboxMode = (bool)$sandboxMode;
+        $this->setApiKey($apiKey);
+        $this->setApiSecret($apiSecret);
+        $this->setSandboxMode($sandboxMode);
     }
 
     //-------------------------------------------------------------------------
@@ -58,7 +58,7 @@ class MailjetAdapter implements AdapterInterface
             ],
         ];
 
-        if ($this->sandboxMode) {
+        if ($this->isSandboxMode()) {
             // The Send API v3.1 allows to run the API call in a Sandbox mode where all the validation
             // of the payload will be done without delivering the message.
             // https://dev.mailjet.com/guides/#sandbox-mode
@@ -74,6 +74,56 @@ class MailjetAdapter implements AdapterInterface
         } catch (\Exception $exception) {
             throw new RuntimeException('Exception raised during sending mail.', $exception->getCode(), $exception);
         }
+    }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = (string)$apiKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiSecret()
+    {
+        return $this->apiSecret;
+    }
+
+    /**
+     * @param string $apiSecret
+     */
+    public function setApiSecret($apiSecret)
+    {
+        $this->apiSecret = (string)$apiSecret;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSandboxMode()
+    {
+        return $this->sandboxMode;
+    }
+
+    /**
+     * @param bool $sandboxMode
+     */
+    public function setSandboxMode($sandboxMode)
+    {
+        $this->sandboxMode = (bool)$sandboxMode;
     }
 
     //-------------------------------------------------------------------------
@@ -96,6 +146,24 @@ class MailjetAdapter implements AdapterInterface
         $m['To'] = [];
         foreach ($message->getRecipients() as $recipient) {
             $m['To'][] = [
+                'Email' => $recipient->getEmail(),
+                'Name' => $recipient->getName(),
+            ];
+        }
+        unset($recipient);
+
+        $m['Cc'] = [];
+        foreach ($message->getRecipientsCc() as $recipient) {
+            $m['Cc'][] = [
+                'Email' => $recipient->getEmail(),
+                'Name' => $recipient->getName(),
+            ];
+        }
+        unset($recipient);
+
+        $m['Bcc'] = [];
+        foreach ($message->getRecipientsBcc() as $recipient) {
+            $m['Bcc'][] = [
                 'Email' => $recipient->getEmail(),
                 'Name' => $recipient->getName(),
             ];
@@ -135,6 +203,6 @@ class MailjetAdapter implements AdapterInterface
      */
     private function createMailjetClient()
     {
-        return new Mailjet\Client($this->apiKey, $this->apiSecret, true, ['version' => 'v3.1']);
+        return new Mailjet\Client($this->getApiKey(), $this->getApiSecret(), true, ['version' => 'v3.1']);
     }
 }
