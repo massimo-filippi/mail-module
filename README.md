@@ -80,6 +80,30 @@ return [
 ];
 ```
 
+**Using SparkPostAdapter:**
+
+```php
+<?php
+
+return [
+    // Config array for modules in MassimoFilippi namespace (our modules).
+    'massimo_filippi' => [
+        
+        // Config array for MailModule.
+        'mail_module' => [
+            
+            // Adapter you want to use.
+            'adapter' => \MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostAdapter::class,
+            
+            // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
+            'adapter_params' => [
+                'api_key' => '---API-KEY---',
+            ],
+        ],
+    ],
+];
+```
+
 **Using SparkPostSmtpAdapter:**
 
 ```php
