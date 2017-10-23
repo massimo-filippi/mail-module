@@ -28,7 +28,7 @@ class Recipient implements RecipientInterface
         $this->setEmail($email);
 
         if ($name) {
-            $this->setName($this->name);
+            $this->setName($name);
         }
     }
 
