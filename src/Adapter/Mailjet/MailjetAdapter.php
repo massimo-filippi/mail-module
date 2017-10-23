@@ -34,15 +34,21 @@ class MailjetAdapter implements AdapterInterface
 
     /**
      * MailjetAdapter constructor.
-     * @param $apiKey
-     * @param $apiSecret
-     * @param bool $sandboxMode
+     * @param array $options
      */
-    public function __construct($apiKey, $apiSecret, $sandboxMode = false)
+    public function __construct(array $options)
     {
-        $this->setApiKey($apiKey);
-        $this->setApiSecret($apiSecret);
-        $this->setSandboxMode($sandboxMode);
+        if (array_key_exists('api_key', $options)) {
+            $this->setApiKey($options['api_key']);
+        }
+
+        if (array_key_exists('api_secret', $options)) {
+            $this->setApiSecret($options['api_secret']);
+        }
+
+        if (array_key_exists('sandbox_mode', $options)) {
+            $this->setSandboxMode($options['sandbox_mode']);
+        }
     }
 
     //-------------------------------------------------------------------------

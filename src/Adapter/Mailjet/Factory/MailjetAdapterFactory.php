@@ -30,20 +30,19 @@ class MailjetAdapterFactory implements FactoryInterface
             throw new ServiceNotCreatedException('Missing adapter parameter: "api_key".');
         }
 
-        $apiKey = $config['massimo_filippi']['mail_module']['adapter_params']['api_key'];
-
         if (false === isset($config['massimo_filippi']['mail_module']['adapter_params']['api_secret'])) {
             throw new ServiceNotCreatedException('Missing adapter parameter: "api_secret".');
         }
 
-        $apiSecret = $config['massimo_filippi']['mail_module']['adapter_params']['api_secret'];
+        $options = [];
 
-        $sandboxMode = false;
+        $options['api_key'] = $config['massimo_filippi']['mail_module']['adapter_params']['api_key'];
+        $options['api_secret'] = $config['massimo_filippi']['mail_module']['adapter_params']['api_secret'];
 
         if (true === isset($config['massimo_filippi']['mail_module']['adapter_params']['sandbox_mode'])) {
-            $sandboxMode = $config['massimo_filippi']['mail_module']['adapter_params']['sandbox_mode'];
+            $options['sandbox_mode'] = $config['massimo_filippi']['mail_module']['adapter_params']['sandbox_mode'];
         }
 
-        return new MailjetAdapter($apiKey, $apiSecret, $sandboxMode);
+        return new MailjetAdapter($options);
     }
 }
