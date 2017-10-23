@@ -69,6 +69,14 @@ class Message implements MessageInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasRecipients()
+    {
+        return false === empty($this->recipients);
+    }
+
+    /**
      * @return RecipientInterface[]
      */
     public function getRecipients()
@@ -85,6 +93,14 @@ class Message implements MessageInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasRecipientsCc()
+    {
+        return false === empty($this->recipientsCc);
+    }
+
+    /**
      * @return RecipientInterface[]
      */
     public function getRecipientsCc()
@@ -98,6 +114,14 @@ class Message implements MessageInterface
     public function addRecipientCc(RecipientInterface $recipient)
     {
         $this->recipientsCc[] = $recipient;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRecipientsBcc()
+    {
+        return false === empty($this->recipientsBcc);
     }
 
     /**

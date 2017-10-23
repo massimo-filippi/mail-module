@@ -97,7 +97,6 @@ return [
             
             // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
             'adapter_params' => [
-                'sending_domain' => '---SENDING-DOMAIN---',
                 'api_key' => '---SMTP-API-KEY---',
             ],
         ],

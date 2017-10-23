@@ -21,24 +21,19 @@ class SparkPostSmtpAdapter implements AdapterInterface
     /**
      * @var string
      */
-    private $sendingDomain = '';
-
-    /**
-     * @var string
-     */
     private $apiKey = '';
 
     //-------------------------------------------------------------------------
 
     /**
      * SparkPostSmtpAdapter constructor.
-     * @param string $sendingDomain
-     * @param string $apiKey
+     * @param array $options
      */
-    public function __construct($sendingDomain, $apiKey)
+    public function __construct(array $options)
     {
-        $this->setSendingDomain($sendingDomain);
-        $this->setApiKey($apiKey);
+        if (array_key_exists('api_key', $options)) {
+            $this->setApiKey($options['api_key']);
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -61,27 +56,30 @@ class SparkPostSmtpAdapter implements AdapterInterface
         }
         unset($recipient);
 
-        foreach ($message->getRecipientsCc() as $recipient) {
-            $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+        if ($message->hasRecipientsCc()) {
+            foreach ($message->getRecipientsCc() as $recipient) {
+                $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
-        foreach ($message->getRecipientsBcc() as $recipient) {
-            $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+        if ($message->hasRecipientsBcc()) {
+            foreach ($message->getRecipientsBcc() as $recipient) {
+                $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
         }
-        unset($recipient);
 
         $zendMessage->setSubject($message->getSubject());
         $zendMessage->setBody($message->getMessage());
 
         $options = new ZendTransportOptions([
-            'name' => $this->sendingDomain,
             'host' => self::HOST,
             'port' => self::PORT,
             'connection_class' => ZendProtocolAuthLogin::class,
             'connection_config' => [
                 'username' => 'SMTP_Injection',
-                'password' => $this->apiKey,
+                'password' => $this->getApiKey(),
                 'ssl' => 'tls',
             ],
         ]);
@@ -91,22 +89,6 @@ class SparkPostSmtpAdapter implements AdapterInterface
     }
 
     //-------------------------------------------------------------------------
-
-    /**
-     * @return string
-     */
-    public function getSendingDomain()
-    {
-        return $this->sendingDomain;
-    }
-
-    /**
-     * @param string $sendingDomain
-     */
-    public function setSendingDomain($sendingDomain)
-    {
-        $this->sendingDomain = (string)$sendingDomain;
-    }
 
     /**
      * @return string

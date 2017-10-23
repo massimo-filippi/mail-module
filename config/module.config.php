@@ -10,6 +10,7 @@ return [
 
             // adapters
             Adapter\Mailjet\MailjetAdapter::class => Adapter\Mailjet\Factory\MailjetAdapterFactory::class,
+            Adapter\SparkPost\SparkPostAdapter::class => Adapter\SparkPost\Factory\SparkPostAdapterFactory::class,
             Adapter\SparkPost\SparkPostSmtpAdapter::class => Adapter\SparkPost\Factory\SparkPostSmtpAdapterFactory::class,
         ],
     ],
