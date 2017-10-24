@@ -22,6 +22,16 @@ class Message implements MessageInterface
     protected $recipients = [];
 
     /**
+     * @var RecipientInterface[]
+     */
+    protected $recipientsCc = [];
+
+    /**
+     * @var RecipientInterface[]
+     */
+    protected $recipientsBcc = [];
+
+    /**
      * @var string
      */
     protected $subject = 'No subject';
@@ -59,6 +69,14 @@ class Message implements MessageInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasRecipients()
+    {
+        return false === empty($this->recipients);
+    }
+
+    /**
      * @return RecipientInterface[]
      */
     public function getRecipients()
@@ -72,6 +90,54 @@ class Message implements MessageInterface
     public function addRecipient(RecipientInterface $recipient)
     {
         $this->recipients[] = $recipient;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRecipientsCc()
+    {
+        return false === empty($this->recipientsCc);
+    }
+
+    /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsCc()
+    {
+        return $this->recipientsCc;
+    }
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientCc(RecipientInterface $recipient)
+    {
+        $this->recipientsCc[] = $recipient;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRecipientsBcc()
+    {
+        return false === empty($this->recipientsBcc);
+    }
+
+    /**
+     * @return RecipientInterface[]
+     */
+    public function getRecipientsBcc()
+    {
+        return $this->recipientsBcc;
+    }
+
+    /**
+     * @param RecipientInterface $recipient
+     */
+    public function addRecipientBcc(RecipientInterface $recipient)
+    {
+        $this->recipientsBcc[] = $recipient;
     }
 
     /**

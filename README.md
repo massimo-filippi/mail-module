@@ -52,7 +52,7 @@ return [
 
 ### 3. Set up your configuration
 
-At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) (via SMTP for now) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
+At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
 
 **Using MailjetAdapter:**
 
@@ -80,6 +80,30 @@ return [
 ];
 ```
 
+**Using SparkPostAdapter:**
+
+```php
+<?php
+
+return [
+    // Config array for modules in MassimoFilippi namespace (our modules).
+    'massimo_filippi' => [
+        
+        // Config array for MailModule.
+        'mail_module' => [
+            
+            // Adapter you want to use.
+            'adapter' => \MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostAdapter::class,
+            
+            // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
+            'adapter_params' => [
+                'api_key' => '---API-KEY---',
+            ],
+        ],
+    ],
+];
+```
+
 **Using SparkPostSmtpAdapter:**
 
 ```php
@@ -97,7 +121,6 @@ return [
             
             // Adapter's parameters needed to create adapter's instance (e.g., api key or password).
             'adapter_params' => [
-                'sending_domain' => '---SENDING-DOMAIN---',
                 'api_key' => '---SMTP-API-KEY---',
             ],
         ],

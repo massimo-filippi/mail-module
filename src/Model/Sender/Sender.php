@@ -28,7 +28,7 @@ class Sender implements SenderInterface
         $this->setEmail($email);
 
         if ($name) {
-            $this->setName($this->name);
+            $this->setName($name);
         }
     }
 

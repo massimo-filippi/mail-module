@@ -21,23 +21,22 @@ class SparkPostSmtpAdapter implements AdapterInterface
     /**
      * @var string
      */
-    private $sendingDomain = '';
-
-    /**
-     * @var string
-     */
     private $apiKey = '';
+
+    //-------------------------------------------------------------------------
 
     /**
      * SparkPostSmtpAdapter constructor.
-     * @param string $sendingDomain
-     * @param string $apiKey
+     * @param array $options
      */
-    public function __construct($sendingDomain, $apiKey)
+    public function __construct(array $options)
     {
-        $this->sendingDomain = (string)$sendingDomain;
-        $this->apiKey = (string)$apiKey;
+        if (array_key_exists('api_key', $options)) {
+            $this->setApiKey($options['api_key']);
+        }
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * @param MessageInterface $message
@@ -48,28 +47,62 @@ class SparkPostSmtpAdapter implements AdapterInterface
 
         $zendMessage->setEncoding('UTF-8');
 
-        $zendMessage->setFrom($message->getSender()->getEmail(), $message->getSender()->getName());
+        $sender = $message->getSender();
+
+        $zendMessage->setFrom($sender->getEmail(), $sender->getName());
 
         foreach ($message->getRecipients() as $recipient) {
             $zendMessage->addTo($recipient->getEmail(), $recipient->getName());
+        }
+        unset($recipient);
+
+        if ($message->hasRecipientsCc()) {
+            foreach ($message->getRecipientsCc() as $recipient) {
+                $zendMessage->addCc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
+        }
+
+        if ($message->hasRecipientsBcc()) {
+            foreach ($message->getRecipientsBcc() as $recipient) {
+                $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
+            }
+            unset($recipient);
         }
 
         $zendMessage->setSubject($message->getSubject());
         $zendMessage->setBody($message->getMessage());
 
         $options = new ZendTransportOptions([
-            'name' => $this->sendingDomain,
             'host' => self::HOST,
             'port' => self::PORT,
             'connection_class' => ZendProtocolAuthLogin::class,
             'connection_config' => [
                 'username' => 'SMTP_Injection',
-                'password' => $this->apiKey,
+                'password' => $this->getApiKey(),
                 'ssl' => 'tls',
             ],
         ]);
 
         $transport = new ZendTransport($options);
         $transport->send($zendMessage);
+    }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = (string)$apiKey;
     }
 }
