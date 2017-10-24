@@ -52,7 +52,7 @@ return [
 
 ### 3. Set up your configuration
 
-At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) (via SMTP for now) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
+At this time you can use 2 services: [SparkPost](https://www.sparkpost.com/) and [Mailjet](https://www.mailjet.com/). Below are examples of my `config/autoload/local.php` file.
 
 **Using MailjetAdapter:**
 
