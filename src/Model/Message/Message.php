@@ -2,6 +2,7 @@
 
 namespace MassimoFilippi\MailModule\Model\Message;
 
+use MassimoFilippi\MailModule\Model\Attachment\AttachmentInterface;
 use MassimoFilippi\MailModule\Model\Recipient\RecipientInterface;
 use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
 
@@ -42,6 +43,13 @@ class Message implements MessageInterface
     protected $message = '';
 
     /**
+     * @var array
+     */
+    protected $attachments = [];
+
+    //-------------------------------------------------------------------------
+
+    /**
      * MessageInterface constructor.
      * @param SenderInterface $sender
      * @param RecipientInterface $recipient
@@ -51,6 +59,8 @@ class Message implements MessageInterface
         $this->setSender($sender);
         $this->addRecipient($recipient);
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * @return SenderInterface
@@ -187,5 +197,29 @@ class Message implements MessageInterface
     public function getText()
     {
         return strip_tags($this->getMessage());
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAttachments()
+    {
+        return !empty($this->attachments);
+    }
+
+    /**
+     * @return AttachmentInterface[]
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param AttachmentInterface $attachment
+     */
+    public function addAttachment(AttachmentInterface $attachment)
+    {
+        $this->attachments[] = $attachment;
     }
 }
