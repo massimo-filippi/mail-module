@@ -171,4 +171,21 @@ class Message implements MessageInterface
     {
         $this->message = (string)$message;
     }
+
+    /**
+     * Alias to getMessage()
+     * @return string
+     */
+    public function getHtml()
+    {
+        return $this->getMessage();
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return strip_tags($this->getMessage());
+    }
 }

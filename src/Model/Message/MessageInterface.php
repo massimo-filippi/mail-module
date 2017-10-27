@@ -11,6 +11,7 @@ use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
  */
 interface MessageInterface
 {
+
     /**
      * MessageInterface constructor.
      * @param SenderInterface $sender
@@ -92,4 +93,14 @@ interface MessageInterface
      * @param string $message
      */
     public function setMessage($message);
+
+    /**
+     * @return string
+     */
+    public function getHtml();
+
+    /**
+     * @return string
+     */
+    public function getText();
 }
