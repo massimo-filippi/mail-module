@@ -187,8 +187,8 @@ class MailjetAdapter implements AdapterInterface
             if ($message->isTemplate()) {
                 $m['TemplateID'] = $message->getTemplateId();
             } else {
-                $m['HTMLPart'] = $message->getMessage();
-                $m['TextPart'] = strip_tags($message->getMessage());
+                $m['HTMLPart'] = $message->getHtml();
+                $m['TextPart'] = $message->getText();
             }
 
             // todo: https://dev.mailjet.com/template-language/sendapi/#templates-error-management
@@ -203,8 +203,8 @@ class MailjetAdapter implements AdapterInterface
                 $m['Variables'] = $message->getVariables();
             }
         } else {
-            $m['HTMLPart'] = $message->getMessage();
-            $m['TextPart'] = strip_tags($message->getMessage());
+            $m['HTMLPart'] = $message->getHtml();
+            $m['TextPart'] = $message->getText();
         }
 
         return $m;
