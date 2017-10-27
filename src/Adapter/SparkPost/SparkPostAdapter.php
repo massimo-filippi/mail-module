@@ -7,6 +7,7 @@ use Http\Adapter\Guzzle6\Client as GuzzleHttpAdapter;
 use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Exception\RuntimeException;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
+use MassimoFilippi\MailModule\Model\Message\SparkPostMessage;
 use SparkPost\SparkPost;
 
 /**
@@ -87,6 +88,10 @@ class SparkPostAdapter implements AdapterInterface
                 ];
             }
             unset($recipient);
+        }
+
+        if ($message instanceof SparkPostMessage) {
+            // todo: implement
         }
 
         try {
