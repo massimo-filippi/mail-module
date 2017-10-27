@@ -7,6 +7,7 @@ use MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter;
 use MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostAdapter;
 use MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostSmtpAdapter;
 use MassimoFilippi\MailModule\Service\MailService;
+use MassimoFilippi\MailModule\Adapter\Sendmail\SendmailAdapter;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -42,6 +43,9 @@ class MailServiceFactory implements FactoryInterface
         switch ($adapterName) {
             case MailjetAdapter::class:
                 $adapter = $container->get(MailjetAdapter::class);
+                break;
+            case SendmailAdapter::class:
+                $adapter = $container->get(SendmailAdapter::class);
                 break;
             case SparkPostAdapter::class:
                 $adapter = $container->get(SparkPostAdapter::class);
