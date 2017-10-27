@@ -19,6 +19,11 @@ class SparkPostMessage extends Message implements MessageInterface
      */
     protected $templateId = '';
 
+    /**
+     * @var array
+     */
+    protected $substitutionData = [];
+
     //-------------------------------------------------------------------------
 
     /**
@@ -51,5 +56,29 @@ class SparkPostMessage extends Message implements MessageInterface
     public function setTemplateId($templateId)
     {
         $this->templateId = (string)$templateId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSubstitutionData()
+    {
+        return !empty($this->substitutionData);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubstitutionData()
+    {
+        return $this->substitutionData;
+    }
+
+    /**
+     * @param array $substitutionData
+     */
+    public function setSubstitutionData(array $substitutionData)
+    {
+        $this->substitutionData = $substitutionData;
     }
 }
