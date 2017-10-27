@@ -8,10 +8,6 @@ namespace MassimoFilippi\MailModule\Model\Message;
  */
 class MailjetMessage extends Message implements MessageInterface
 {
-    /**
-     * @var array
-     */
-    protected $variables = [];
 
     /**
      * @var bool
@@ -22,6 +18,11 @@ class MailjetMessage extends Message implements MessageInterface
      * @var int
      */
     protected $templateId = 0;
+
+    /**
+     * @var array
+     */
+    protected $variables = [];
 
     /**
      * @var bool
@@ -38,30 +39,7 @@ class MailjetMessage extends Message implements MessageInterface
      */
     protected $templateErrorReporting = [];
 
-    /**
-     * @return bool
-     */
-    public function hasVariables()
-    {
-        return false === empty($this->variables);
-    }
-
-    /**
-     * @return array
-     */
-    public function getVariables()
-    {
-        return $this->variables;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setVariable($key, $value)
-    {
-        $this->variables[(string)$key] = $value;
-    }
+    //-------------------------------------------------------------------------
 
     /**
      * @return bool
@@ -93,6 +71,31 @@ class MailjetMessage extends Message implements MessageInterface
     public function setTemplateId($templateId)
     {
         $this->templateId = (int)$templateId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasVariables()
+    {
+        return false === empty($this->variables);
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariables()
+    {
+        return $this->variables;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setVariable($key, $value)
+    {
+        $this->variables[(string)$key] = $value;
     }
 
     /**
