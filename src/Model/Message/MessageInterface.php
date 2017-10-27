@@ -2,6 +2,7 @@
 
 namespace MassimoFilippi\MailModule\Model\Message;
 
+use MassimoFilippi\MailModule\Model\Attachment\AttachmentInterface;
 use MassimoFilippi\MailModule\Model\Recipient\RecipientInterface;
 use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
 
@@ -11,6 +12,7 @@ use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
  */
 interface MessageInterface
 {
+
     /**
      * MessageInterface constructor.
      * @param SenderInterface $sender
@@ -92,4 +94,29 @@ interface MessageInterface
      * @param string $message
      */
     public function setMessage($message);
+
+    /**
+     * @return string
+     */
+    public function getHtml();
+
+    /**
+     * @return string
+     */
+    public function getText();
+
+    /**
+     * @return bool
+     */
+    public function hasAttachments();
+
+    /**
+     * @return array
+     */
+    public function getAttachments();
+
+    /**
+     * @param AttachmentInterface $attachment
+     */
+    public function addAttachment(AttachmentInterface $attachment);
 }

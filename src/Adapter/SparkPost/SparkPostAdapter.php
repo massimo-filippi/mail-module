@@ -7,6 +7,7 @@ use Http\Adapter\Guzzle6\Client as GuzzleHttpAdapter;
 use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Exception\RuntimeException;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
+use MassimoFilippi\MailModule\Model\Message\SparkPostMessage;
 use SparkPost\SparkPost;
 
 /**
@@ -42,15 +43,12 @@ class SparkPostAdapter implements AdapterInterface
     {
         $payload = [];
 
-        $payload['content'] = [
-            'from' => [
-                'name' => $message->getSender()->getName(),
-                'email' => $message->getSender()->getEmail(),
-            ],
-            'subject' => $message->getSubject(),
-            'html' => $message->getMessage(),
-            'text' => strip_tags($message->getMessage()),
+        $payload['content'] = [];
+        $payload['content']['from'] = [
+            'name' => $message->getSender()->getName(),
+            'email' => $message->getSender()->getEmail(),
         ];
+        $payload['content']['subject'] = $message->getSubject();
 
         $payload['recipients'] = [];
         foreach ($message->getRecipients() as $recipient) {
@@ -87,6 +85,35 @@ class SparkPostAdapter implements AdapterInterface
                 ];
             }
             unset($recipient);
+        }
+
+        if ($message instanceof SparkPostMessage) {
+
+            if ($message->isTemplate()) {
+                $payload['content']['template_id'] = $message->getTemplateId();
+            } else {
+                $payload['content']['html'] = $message->getHtml();
+                $payload['content']['text'] = $message->getText();
+            }
+
+            if ($message->hasSubstitutionData()) {
+                $payload['substitution_data'] = $message->getSubstitutionData();
+            }
+
+            if ($message->hasAttachments()) {
+                $payload['attachments'] = [];
+
+                foreach ($message->getAttachments() as $attachment) {
+                    $payload['attachments'][] = [
+                        'type' => $attachment->getType(),
+                        'name' => $attachment->getName(),
+                        'data' => $attachment->getData(),
+                    ];
+                }
+            }
+        } else {
+            $payload['content']['html'] = $message->getHtml();
+            $payload['content']['text'] = $message->getText();
         }
 
         try {
