@@ -43,15 +43,12 @@ class SparkPostAdapter implements AdapterInterface
     {
         $payload = [];
 
-        $payload['content'] = [
-            'from' => [
-                'name' => $message->getSender()->getName(),
-                'email' => $message->getSender()->getEmail(),
-            ],
-            'subject' => $message->getSubject(),
-            'html' => $message->getMessage(),
-            'text' => strip_tags($message->getMessage()),
+        $payload['content'] = [];
+        $payload['content']['from'] = [
+            'name' => $message->getSender()->getName(),
+            'email' => $message->getSender()->getEmail(),
         ];
+        $payload['content']['subject'] = $message->getSubject();
 
         $payload['recipients'] = [];
         foreach ($message->getRecipients() as $recipient) {
@@ -91,7 +88,20 @@ class SparkPostAdapter implements AdapterInterface
         }
 
         if ($message instanceof SparkPostMessage) {
-            // todo: implement
+
+            if ($message->isTemplate()) {
+                $payload['content']['template_id'] = $message->getTemplateId();
+            } else {
+                $payload['content']['html'] = $message->getHtml();
+                $payload['content']['text'] = $message->getText();
+            }
+
+            if ($message->hasSubstitutionData()) {
+                $payload['substitution_data'] = $message->getSubstitutionData();
+            }
+        } else {
+            $payload['content']['html'] = $message->getHtml();
+            $payload['content']['text'] = $message->getText();
         }
 
         try {
