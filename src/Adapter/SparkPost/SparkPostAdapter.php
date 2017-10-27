@@ -99,6 +99,18 @@ class SparkPostAdapter implements AdapterInterface
             if ($message->hasSubstitutionData()) {
                 $payload['substitution_data'] = $message->getSubstitutionData();
             }
+
+            if ($message->hasAttachments()) {
+                $payload['attachments'] = [];
+
+                foreach ($message->getAttachments() as $attachment) {
+                    $payload['attachments'][] = [
+                        'type' => $attachment->getType(),
+                        'name' => $attachment->getName(),
+                        'data' => $attachment->getData(),
+                    ];
+                }
+            }
         } else {
             $payload['content']['html'] = $message->getHtml();
             $payload['content']['text'] = $message->getText();

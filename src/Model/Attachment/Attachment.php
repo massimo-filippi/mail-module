@@ -12,12 +12,12 @@ class Attachment implements AttachmentInterface
     /**
      * @var string
      */
-    protected $name = '';
+    protected $name = 'Attachment';
 
     /**
      * @var string
      */
-    protected $type = '';
+    protected $type = 'application/octet-stream';
 
     /**
      * @var string
@@ -33,11 +33,12 @@ class Attachment implements AttachmentInterface
     }
 
     /**
+     * Name of file.
      * @param string $name
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string)$name;
     }
 
     /**
@@ -49,11 +50,12 @@ class Attachment implements AttachmentInterface
     }
 
     /**
+     * MIME type of file.
      * @param string $type
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = (string)$type;
     }
 
     /**
@@ -65,10 +67,11 @@ class Attachment implements AttachmentInterface
     }
 
     /**
+     * Base64 encoded file content.
      * @param string $data
      */
     public function setData($data)
     {
-        $this->data = $data;
+        $this->data = (string)$data;
     }
 }

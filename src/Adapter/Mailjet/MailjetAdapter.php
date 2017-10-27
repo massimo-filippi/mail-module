@@ -202,6 +202,18 @@ class MailjetAdapter implements AdapterInterface
             if ($message->hasVariables()) {
                 $m['Variables'] = $message->getVariables();
             }
+
+            if ($message->hasAttachments()) {
+                $m['Attachments'] = [];
+
+                foreach ($message->getAttachments() as $attachment) {
+                    $m['Attachments'][] = [
+                        'ContentType' => $attachment->getType(),
+                        'Filename' => $attachment->getName(),
+                        'Base64Content' => $attachment->getData(),
+                    ];
+                }
+            }
         } else {
             $m['HTMLPart'] = $message->getHtml();
             $m['TextPart'] = $message->getText();
