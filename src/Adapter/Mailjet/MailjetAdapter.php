@@ -77,7 +77,6 @@ class MailjetAdapter implements AdapterInterface
 
             $response = $mailjetClient->post(Mailjet\Resources::$Email, ['body' => $body]);
 
-            var_dump($response);
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
             }
