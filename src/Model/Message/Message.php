@@ -4,6 +4,8 @@ namespace MassimoFilippi\MailModule\Model\Message;
 
 use MassimoFilippi\MailModule\Model\Attachment\AttachmentInterface;
 use MassimoFilippi\MailModule\Model\Recipient\RecipientInterface;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyTo;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyToInterface;
 use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
 
 /**
@@ -31,6 +33,11 @@ class Message implements MessageInterface
      * @var RecipientInterface[]
      */
     protected $recipientsBcc = [];
+
+    /**
+     * @var ReplyToInterface[]
+     */
+    protected $replyTo = [];
 
     /**
      * @var string
@@ -148,6 +155,42 @@ class Message implements MessageInterface
     public function addRecipientBcc(RecipientInterface $recipient)
     {
         $this->recipientsBcc[] = $recipient;
+    }
+
+    /**
+     * @return ReplyToInterface[]
+     */
+    public function getReplyTo()
+    {
+        return $this->replyTo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasReplyTo()
+    {
+        return sizeof($this->replyTo) > 0;
+    }
+
+    /**
+     * @param ReplyToInterface|ReplyTo[] $replyTo
+     */
+    public function setReplyTo($replyTo)
+    {
+        if (is_array($replyTo)) {
+            $this->replyTo = $replyTo;
+        } else {
+            $this->replyTo = [$replyTo];
+        }
+    }
+
+    /**
+     * @param ReplyToInterface $replyTo
+     */
+    public function addReplyTo(ReplyToInterface $replyTo)
+    {
+        $this->replyTo[] = $replyTo;
     }
 
     /**

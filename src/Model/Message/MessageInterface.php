@@ -4,6 +4,7 @@ namespace MassimoFilippi\MailModule\Model\Message;
 
 use MassimoFilippi\MailModule\Model\Attachment\AttachmentInterface;
 use MassimoFilippi\MailModule\Model\Recipient\RecipientInterface;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyToInterface;
 use MassimoFilippi\MailModule\Model\Sender\SenderInterface;
 
 /**
@@ -74,6 +75,26 @@ interface MessageInterface
      * @param RecipientInterface $recipient
      */
     public function addRecipientBcc(RecipientInterface $recipient);
+
+    /**
+     * @return ReplyToInterface[]
+     */
+    public function getReplyTo();
+
+    /**
+     * @return bool
+     */
+    public function hasReplyTo();
+
+    /**
+     * @param ReplyToInterface[] $replyTo
+     */
+    public function setReplyTo($replyTo);
+
+    /**
+     * @param ReplyToInterface $replyTo
+     */
+    public function addReplyTo(ReplyToInterface $replyTo);
 
     /**
      * @return string

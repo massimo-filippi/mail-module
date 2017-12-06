@@ -7,6 +7,7 @@ use MassimoFilippi\MailModule\Exception\RuntimeException;
 use MassimoFilippi\MailModule\Model\Message\MailjetMessage;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
 use Mailjet;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyToInterface;
 
 /**
  * Class MailjetAdapter
@@ -76,6 +77,7 @@ class MailjetAdapter implements AdapterInterface
 
             $response = $mailjetClient->post(Mailjet\Resources::$Email, ['body' => $body]);
 
+            var_dump($response);
             if (false === $response->success()) {
                 throw new RuntimeException($response->getReasonPhrase());
             }
@@ -180,6 +182,28 @@ class MailjetAdapter implements AdapterInterface
                 ];
             }
             unset($recipient);
+        }
+
+        if($message->hasReplyTo()) {
+            /** @var ReplyToInterface $replyTo */
+            $replyTo = current($message->getReplyTo());
+
+            // MailJet API v3
+//            if(!isset($m['Headers'])) {
+//                $m['Headers'] = [];
+//            }
+
+//            if(!empty($replyTo->getName())) {
+//                $m['Headers']['Reply-To'] = $replyTo->getName() . ' <' . $replyTo->getEmail() . '>';
+//            } else {
+//                $m['Headers']['Reply-To'] = $replyTo->getEmail();
+//            }
+
+            // MailJet API v3.1
+            $m['ReplyTo'] = [
+                'Email' => $replyTo->getEmail(),
+                'Name' => $replyTo->getName()
+            ];
         }
 
         if ($message instanceof MailjetMessage) {
