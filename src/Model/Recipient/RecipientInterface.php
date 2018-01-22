@@ -8,12 +8,6 @@ namespace MassimoFilippi\MailModule\Model\Recipient;
  */
 interface RecipientInterface
 {
-    /**
-     * RecipientInterface constructor.
-     * @param string $email
-     * @param string|null $name
-     */
-    public function __construct($email, $name = null);
 
     /**
      * @return string

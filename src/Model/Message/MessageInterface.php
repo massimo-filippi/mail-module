@@ -15,13 +15,6 @@ interface MessageInterface
 {
 
     /**
-     * MessageInterface constructor.
-     * @param SenderInterface $sender
-     * @param RecipientInterface $recipient
-     */
-    public function __construct(SenderInterface $sender, RecipientInterface $recipient);
-
-    /**
      * @return SenderInterface
      */
     public function getSender();
