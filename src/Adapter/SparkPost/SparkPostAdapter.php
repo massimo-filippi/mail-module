@@ -8,6 +8,7 @@ use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Exception\RuntimeException;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
 use MassimoFilippi\MailModule\Model\Message\SparkPostMessage;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyTo;
 use SparkPost\SparkPost;
 
 /**
@@ -85,6 +86,17 @@ class SparkPostAdapter implements AdapterInterface
                 ];
             }
             unset($recipient);
+        }
+
+        if(false && $message->hasReplyTo()) {
+            /** @var ReplyTo $replyTo */
+            $replyTo = current($message->getReplyTo());
+
+            if(!empty($replyTo->getName())) {
+                $payload['content']['reply_to'] = $replyTo->getName() . ' <'. $replyTo->getEmail() .'>';
+            } else {
+                $payload['content']['reply_to'] = $replyTo->getEmail();
+            }
         }
 
         if ($message instanceof SparkPostMessage) {

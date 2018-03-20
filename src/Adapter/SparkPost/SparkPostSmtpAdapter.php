@@ -75,11 +75,7 @@ class SparkPostSmtpAdapter implements AdapterInterface
             /** @var ReplyTo $replyTo */
             $replyTo = current($message->getReplyTo());
 
-            if(!empty($replyTo->getName())) {
-                $payload['content']['reply_to'] = $replyTo->getName() . ' <'. $replyTo->getEmail() .'>';
-            } else {
-                $payload['content']['reply_to'] = $replyTo->getEmail();
-            }
+            $zendMessage->setReplyTo($replyTo->getEmail(), !empty($replyTo->getName()) ? $replyTo->getName() : null);
         }
 
         $zendMessage->setSubject($message->getSubject());
