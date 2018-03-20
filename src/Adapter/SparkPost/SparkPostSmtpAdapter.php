@@ -4,6 +4,7 @@ namespace MassimoFilippi\MailModule\Adapter\SparkPost;
 
 use MassimoFilippi\MailModule\Adapter\AdapterInterface;
 use MassimoFilippi\MailModule\Model\Message\MessageInterface;
+use MassimoFilippi\MailModule\Model\ReplyTo\ReplyTo;
 use Zend\Mail\Message as ZendMessage;
 use Zend\Mail\Protocol\Smtp\Auth\Login as ZendProtocolAuthLogin;
 use Zend\Mail\Transport\Smtp as ZendTransport;
@@ -68,6 +69,17 @@ class SparkPostSmtpAdapter implements AdapterInterface
                 $zendMessage->addBcc($recipient->getEmail(), $recipient->getName());
             }
             unset($recipient);
+        }
+
+        if($message->hasReplyTo()) {
+            /** @var ReplyTo $replyTo */
+            $replyTo = current($message->getReplyTo());
+
+            if(!empty($replyTo->getName())) {
+                $payload['content']['reply_to'] = $replyTo->getName() . ' <'. $replyTo->getEmail() .'>';
+            } else {
+                $payload['content']['reply_to'] = $replyTo->getEmail();
+            }
         }
 
         $zendMessage->setSubject($message->getSubject());
