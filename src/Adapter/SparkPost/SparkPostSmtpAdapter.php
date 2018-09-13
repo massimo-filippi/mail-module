@@ -48,6 +48,12 @@ class SparkPostSmtpAdapter implements AdapterInterface
 
         $zendMessage->setEncoding('UTF-8');
 
+        if ($message->getMessage() !== strip_tags($message->getMessage())) {
+            $headers = $message->getHeaders();
+            $headers->removeHeader('Content-Type');
+            $headers->addHeaderLine('Content-Type', 'text/html; charset=UTF-8');
+        }
+
         $sender = $message->getSender();
 
         $zendMessage->setFrom($sender->getEmail(), $sender->getName());
