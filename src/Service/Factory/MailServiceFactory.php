@@ -3,6 +3,7 @@
 namespace MassimoFilippi\MailModule\Service\Factory;
 
 use Interop\Container\ContainerInterface;
+use MassimoFilippi\MailModule\Adapter\Google\GoogleSmtpAdapter;
 use MassimoFilippi\MailModule\Adapter\Mailjet\MailjetAdapter;
 use MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostAdapter;
 use MassimoFilippi\MailModule\Adapter\SparkPost\SparkPostSmtpAdapter;
@@ -48,6 +49,9 @@ class MailServiceFactory implements FactoryInterface
                 break;
             case SparkPostSmtpAdapter::class:
                 $adapter = $container->get(SparkPostSmtpAdapter::class);
+                break;
+            case GoogleSmtpAdapter::class:
+                $adapter = $container->get(GoogleSmtpAdapter::class);
                 break;
             default:
                 throw new ServiceNotCreatedException(sprintf('Adapter "%s" could not be found.', $adapterName));
