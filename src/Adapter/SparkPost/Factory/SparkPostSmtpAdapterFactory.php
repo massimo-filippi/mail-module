@@ -34,6 +34,14 @@ class SparkPostSmtpAdapterFactory implements FactoryInterface
 
         $options['api_key'] = $config['massimo_filippi']['mail_module']['adapter_params']['api_key'];
 
+        if (array_key_exists('host', $config['massimo_filippi']['mail_module']['adapter_params'])) {
+            $options['host'] = $config['massimo_filippi']['mail_module']['adapter_params']['host'];
+        }
+
+        if (array_key_exists('port', $config['massimo_filippi']['mail_module']['adapter_params'])) {
+            $options['port'] = $config['massimo_filippi']['mail_module']['adapter_params']['port'];
+        }
+
         return new SparkPostSmtpAdapter($options);
     }
 }

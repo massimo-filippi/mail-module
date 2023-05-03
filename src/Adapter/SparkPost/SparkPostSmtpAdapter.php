@@ -23,6 +23,10 @@ class SparkPostSmtpAdapter implements AdapterInterface
      * @var string
      */
     private $apiKey = '';
+    
+    private $host = self::HOST;
+    
+    private $port = self::PORT;
 
     //-------------------------------------------------------------------------
 
@@ -34,6 +38,14 @@ class SparkPostSmtpAdapter implements AdapterInterface
     {
         if (array_key_exists('api_key', $options)) {
             $this->setApiKey($options['api_key']);
+        }
+        
+        if (array_key_exists('host', $options)) {
+            $this->host = $options['host'];
+        }
+        
+        if (array_key_exists('port', $options)) {
+            $this->port = $options['port'];
         }
     }
 
@@ -88,8 +100,8 @@ class SparkPostSmtpAdapter implements AdapterInterface
         $zendMessage->setBody($message->getMessage());
 
         $options = new ZendTransportOptions([
-            'host' => self::HOST,
-            'port' => self::PORT,
+            'host' => $this->host,
+            'port' => $this->port,
             'connection_class' => ZendProtocolAuthLogin::class,
             'connection_config' => [
                 'username' => 'SMTP_Injection',
